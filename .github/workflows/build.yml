@@ -101,7 +101,7 @@ jobs:
           prerelease: false
 
   build-linux:
-    name: Build Linux AppImage
+    name: Build Linux archive
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -127,38 +127,22 @@ jobs:
         run: |
           pyinstaller --windowed --name "JDP Presenter" --icon assets/icon.png --add-data "app/server/templates:templates" --add-data "app/resources/help:help" --add-data "LICENSE:." --add-data "THIRD_PARTY_NOTICES.md:." --hidden-import=PySide6.QtMultimedia --hidden-import=PySide6.QtMultimediaWidgets --hidden-import=PySide6.QtNetwork --hidden-import=PySide6.QtWebSockets --hidden-import=sounddevice --hidden-import=numpy --hidden-import=qrcode --hidden-import=PIL --hidden-import=flask --hidden-import=flask_socketio --hidden-import=socketio app/main.py
 
-      - name: Create AppImage
-        uses: linuxdeploy/assemble-appimage@v1
-        with:
-          appdir: dist/JDP Presenter
-          recipe: |
-            AppDirPath: dist/JDP Presenter
-            ExePath: dist/JDP Presenter/JDP Presenter
-            IconPath: assets/icon.png
-            DesktopFile: |
-              [Desktop Entry]
-              Name=JDP Presenter
-              Exec=JDP Presenter
-              Icon=icon
-              Type=Application
-              Categories=Office;Presentation;
-
-      - name: Rename AppImage
+      - name: Create Linux archive
         run: |
-          mv dist/JDP_Presenter*.AppImage dist/JDP-Presenter-linux.AppImage
+          tar -C dist -czf dist/JDP-Presenter-linux.tar.gz "JDP Presenter"
 
       - name: Upload Linux artifact
         uses: actions/upload-artifact@v4
         with:
           name: jdp-presenter-linux
           path: |
-            dist/JDP-Presenter-linux.AppImage
+            dist/JDP-Presenter-linux.tar.gz
 
       - name: Release (if tag)
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            dist/JDP-Presenter-linux.AppImage
+            dist/JDP-Presenter-linux.tar.gz
           draft: false
           prerelease: false

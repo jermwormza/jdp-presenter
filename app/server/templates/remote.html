@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JDP Presenter Remote</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #101318;
+      --panel: #1a1f27;
+      --raised: #252c36;
+      --border: #394351;
+      --text: #f4f7fb;
+      --muted: #9ca8b8;
+      --accent: #39b6d8;
+      --live: #2aa66a;
+      --danger: #d75959;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", sans-serif;
+    }
+    .shell {
+      display: grid;
+      grid-template-areas: "header" "now" "controls" "previews";
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 12px;
+    }
+    header { grid-area: header; display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    h1 { margin: 0; font-size: 17px; font-weight: 650; }
+    #status { color: var(--muted); font-size: 12px; }
+    #status.connected { color: var(--accent); }
+    .now {
+      grid-area: now;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: baseline;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+    }
+    .title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    #page { color: var(--muted); font-variant-numeric: tabular-nums; }
+    .controls { grid-area: controls; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .group {
+      display: grid;
+      min-width: 0;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      padding: 8px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+    .group.navigation { grid-column: 1 / -1; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .group-title { grid-column: 1 / -1; color: var(--muted); font-size: 11px; text-align: left; }
+    button {
+      min-height: 42px;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      background: var(--raised);
+      color: var(--text);
+      font: 600 12px/1.1 "Segoe UI", sans-serif;
+      font-weight: 600;
+      min-width: 0;
+      padding: 5px 3px;
+      cursor: pointer;
+    }
+    button:active { transform: translateY(1px); }
+    button:disabled { opacity: .38; cursor: default; }
+    #prev, #next { border-color: #2789a5; }
+    #live.active { background: var(--live); border-color: var(--live); }
+    #black.active, #record-stop { background: var(--danger); border-color: var(--danger); }
+    #record-start { color: #ff8383; }
+    .previews {
+      grid-area: previews;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .preview-card { min-width: 0; }
+    .preview-heading {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 7px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .preview-heading strong {
+      color: var(--text);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .slide {
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 7%;
+      border: 1px solid var(--border);
+      background: #000;
+      color: #fff;
+      white-space: pre-wrap;
+      text-align: center;
+      font-family: Georgia, serif;
+      font-size: clamp(13px, 1.7vw, 24px);
+      line-height: 1.25;
+    }
+    .slide.scripture { text-align: left; }
+    @media (min-width: 768px) {
+      .shell { grid-template-areas: "header" "previews" "now" "controls"; padding: 18px; }
+      .previews { grid-template-columns: 2fr 1fr; margin-top: 0; margin-bottom: 12px; }
+      .controls { grid-template-columns: 1.25fr 1fr 1fr; }
+      .group.navigation { grid-column: auto; }
+      button { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header><h1>JDP Presenter</h1><div id="status">Connecting</div></header>
+    <div class="now"><span id="title" class="title">No current item</span><span id="page">0/0</span></div>
+    <section class="controls">
+      <div class="group navigation">
+        <div class="group-title">Schedule</div>
+        <button id="prev" title="Previous page">◀ Prev</button>
+        <button id="next" title="Next page">Next ▶</button>
+        <button id="live">Live</button>
+        <button id="black">Black</button>
+      </div>
+      <div class="group">
+        <div class="group-title">Media</div>
+        <button id="media-play">▶ Play</button>
+        <button id="media-pause">Ⅱ Pause</button>
+        <button id="media-stop">■ Stop</button>
+      </div>
+      <div class="group">
+        <div class="group-title">Recording</div>
+        <button id="record-start">● Start</button>
+        <button id="record-pause">Ⅱ Pause</button>
+        <button id="record-stop">■ Stop</button>
+      </div>
+    </section>
+    <section class="previews" aria-label="Slide previews">
+      <article class="preview-card">
+        <div class="preview-heading"><span>Current</span><strong id="current-preview-title"></strong></div>
+        <div id="current-preview" class="slide"></div>
+      </article>
+      <article class="preview-card">
+        <div class="preview-heading"><span>Next</span><strong id="next-preview-title"></strong></div>
+        <div id="next-preview" class="slide"></div>
+      </article>
+    </section>
+  </main>
+
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script>
+    const socket = io();
+    const byId = (id) => document.getElementById(id);
+    const command = (type) => socket.emit("command", { type });
+    const statusEl = byId("status");
+
+    socket.on("connect", () => {
+      statusEl.textContent = "Connected";
+      statusEl.classList.add("connected");
+    });
+    socket.on("disconnect", () => {
+      statusEl.textContent = "Disconnected";
+      statusEl.classList.remove("connected");
+    });
+    socket.on("state_update", (state) => {
+      const total = state.total_slides || 0;
+      byId("title").textContent = state.title || "No current item";
+      byId("page").textContent = total ? `${state.slide_index + 1}/${total}` : "0/0";
+      byId("current-preview-title").textContent = state.title || "No current item";
+      byId("next-preview-title").textContent = state.next_title || "End of schedule";
+      setPreview(
+        "current-preview",
+        state.current_text,
+        state.current_type,
+        state.current_background,
+        state.current_color
+      );
+      setPreview(
+        "next-preview",
+        state.next_text,
+        state.next_type,
+        state.next_background,
+        state.next_color
+      );
+      byId("live").classList.toggle("active", state.is_live && !state.is_black);
+      byId("black").classList.toggle("active", state.is_black);
+      ["media-play", "media-pause", "media-stop"].forEach((id) => {
+        byId(id).disabled = !state.media_active;
+      });
+      byId("media-play").disabled = !state.media_active || state.media_playing;
+      byId("media-pause").disabled = !state.media_active || !state.media_playing;
+      const recording = state.recording_state || "idle";
+      byId("record-start").disabled = recording !== "idle";
+      byId("record-pause").disabled = recording === "idle";
+      byId("record-pause").textContent = recording === "paused" ? "▶ Resume" : "Ⅱ Pause";
+      byId("record-pause").dataset.command =
+        recording === "paused" ? "recording_resume" : "recording_pause";
+      byId("record-stop").disabled = recording === "idle";
+    });
+
+    function setPreview(id, text, type, background, color) {
+      const element = byId(id);
+      element.textContent = text || (type ? `[${type}]` : "");
+      element.className = `slide ${type || ""}`;
+      element.style.background = background || "#000";
+      element.style.color = color || "#fff";
+    }
+
+    byId("prev").onclick = () => command("prev");
+    byId("next").onclick = () => command("next");
+    byId("live").onclick = () => command("toggle_live");
+    byId("black").onclick = () => command("toggle_black");
+    byId("media-play").onclick = () => command("media_play");
+    byId("media-pause").onclick = () => command("media_pause");
+    byId("media-stop").onclick = () => command("media_stop");
+    byId("record-start").onclick = () => command("recording_start");
+    byId("record-pause").onclick = () => {
+      command(byId("record-pause").dataset.command || "recording_pause");
+    };
+    byId("record-stop").onclick = () => command("recording_stop");
+  </script>
+</body>
+</html>

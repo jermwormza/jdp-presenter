@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JDP Presenter Help</title>
+  <style>
+    :root { color-scheme: light dark; --accent:#087da8; --line:#aeb8c2; --panel:#fff; --ink:#1d252d; --muted:#5e6975; --soft:#edf2f5; }
+    @media (prefers-color-scheme: dark) { :root { --accent:#39a8d8; --line:#46515f; --panel:#20242b; --ink:#f2f4f7; --muted:#aeb6c2; --soft:#161a20; } }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--soft); color:var(--ink); font:16px/1.55 "Segoe UI",sans-serif; }
+    header { background:#12212a; color:#fff; padding:28px max(24px,calc((100vw - 1050px)/2)); }
+    h1 { margin:0 0 6px; font-size:30px; letter-spacing:0; }
+    header p { margin:0; color:#c5d7df; }
+    nav { position:sticky; top:0; z-index:2; display:flex; gap:6px; overflow:auto; padding:9px max(18px,calc((100vw - 1050px)/2)); background:var(--panel); border-bottom:1px solid var(--line); }
+    nav a { white-space:nowrap; color:var(--ink); text-decoration:none; padding:5px 9px; border-radius:4px; }
+    nav a:hover { background:var(--soft); color:var(--accent); }
+    main { max-width:1050px; margin:auto; padding:26px 22px 60px; }
+    section { margin:0 0 52px; }
+    h2 { margin:0 0 10px; font-size:24px; }
+    h3 { margin:24px 0 8px; font-size:18px; }
+    ol { padding-left:24px; }
+    li { margin:7px 0; }
+    code, kbd { background:var(--soft); border:1px solid var(--line); border-radius:3px; padding:1px 5px; }
+    .shot { margin:18px 0; border:1px solid var(--line); background:var(--panel); box-shadow:0 8px 24px rgba(0,0,0,.12); }
+    .shot-bar { display:flex; align-items:center; gap:7px; min-height:34px; padding:6px 10px; background:#26313a; color:#fff; font-size:13px; }
+    .dot { width:9px; height:9px; border-radius:50%; background:#6e7b86; }
+    .shot-body { display:grid; min-height:230px; }
+    .settings-shot { grid-template-columns:190px 1fr; }
+    .side { padding:12px; background:var(--soft); border-right:1px solid var(--line); }
+    .side div { padding:7px 9px; margin-bottom:3px; border-radius:3px; }
+    .side .active { background:var(--accent); color:#fff; }
+    .form { padding:18px; }
+    .field { display:grid; grid-template-columns:150px 1fr; gap:12px; align-items:center; margin:10px 0; }
+    .input { min-height:31px; border:1px solid var(--line); background:var(--panel); border-radius:3px; padding:5px 8px; }
+    .schedule-shot { grid-template-columns:38% 62%; }
+    .schedule { border-right:1px solid var(--line); }
+    .tools { display:flex; gap:5px; padding:7px; border-bottom:1px solid var(--line); }
+    .tool { width:30px; height:28px; display:grid; place-items:center; color:#fff; background:#287b9d; border-radius:3px; font-weight:bold; }
+    .search { margin:8px; padding:7px; border:1px solid var(--accent); border-radius:4px; color:var(--muted); }
+    .row { padding:8px 10px; border-top:1px solid var(--line); }
+    .row.selected { border-left:4px solid var(--accent); background:var(--soft); }
+    .preview { display:grid; place-items:center; margin:18px; background:#080a0c; color:#fff; text-align:left; padding:36px; aspect-ratio:16/9; }
+    .remote-shot { display:grid; grid-template-columns:1.8fr 1fr; gap:10px; padding:12px; background:#101318; color:#fff; }
+    .remote-slide { display:grid; place-items:center; min-height:150px; padding:24px; background:#000; border:1px solid #394351; text-align:center; }
+    .remote-controls { grid-column:1/-1; display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+    .remote-controls div { padding:10px; background:#252c36; border:1px solid #394351; text-align:center; }
+    figcaption { padding:8px 11px; color:var(--muted); border-top:1px solid var(--line); font-size:13px; }
+    table { width:100%; border-collapse:collapse; background:var(--panel); }
+    th,td { padding:8px 10px; border:1px solid var(--line); text-align:left; }
+    .note { padding:10px 12px; border-left:4px solid var(--accent); background:var(--panel); }
+    @media (max-width:650px) { .settings-shot,.schedule-shot,.remote-shot { grid-template-columns:1fr; } .side { border-right:0; } .field { grid-template-columns:1fr; gap:3px; } }
+  </style>
+</head>
+<body>
+<header><h1>JDP Presenter Help</h1><p>Setup, library management, schedule building, presenting, and recording</p></header>
+<nav><a href="#settings">Settings</a><a href="#import">Import</a><a href="#schedule">Schedule</a><a href="#present">Present</a><a href="#remote">Remote</a><a href="#record">Recording</a></nav>
+<main>
+<section id="settings">
+  <h2>1. Settings</h2>
+  <ol><li>Open <strong>File → Settings</strong>.</li><li>Under <strong>Libraries</strong>, choose locations for Bibles, songs, services, media, and recordings.</li><li>Under <strong>Audio</strong>, choose input and monitoring devices. Use <strong>Recording</strong> for format, quality, output folder, and prompt behavior.</li><li>Under <strong>Keyboard Shortcuts</strong>, click any shortcut button and press its replacement key combination. Conflicting shortcuts are rejected; Restore Defaults returns to the standard layout.</li><li>Under <strong>General</strong>, choose whether JDP Presenter checks GitHub Releases for new versions at startup. A manual check is always available from <strong>Help → Check for Updates</strong>.</li><li>Save changes. Restart JDP Presenter after changing a library location.</li></ol>
+  <figure class="shot"><div class="shot-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i>Settings</div><div class="shot-body settings-shot"><div class="side"><div>General</div><div class="active">Libraries</div><div>Audio</div><div>Display</div></div><div class="form"><div class="field"><b>Song library</b><span class="input">C:\ProgramData\jdp-presenter\songs</span></div><div class="field"><b>Bible library</b><span class="input">C:\ProgramData\jdp-presenter\bibles</span></div><div class="field"><b>Recording folder</b><span class="input">Documents\JDP Recordings</span></div></div></div><figcaption>Settings: select a page on the left, then edit its values on the right.</figcaption></figure>
+</section>
+<section id="import">
+  <h2>2. Import Resources</h2>
+  <ol><li>Choose <strong>File → Import</strong>.</li><li>Select the resource format: Quelea song pack (<code>.qsp</code>), OpenLyrics archive (<code>.zip</code>), individual song XML/script, Bible, or library package.</li><li>Choose <strong>Replace</strong> only when the active library should be cleared first.</li><li>Select the source file and wait for the imported/failed summary.</li><li>For media, open <strong>Add Media</strong> and choose <strong>Import to Library</strong>, or drag supported image, video, and audio files directly onto the schedule.</li></ol>
+  <p class="note">Replace affects the selected library type. Existing application settings are retained.</p>
+</section>
+<section id="schedule">
+  <h2>3. Add Items to the Schedule</h2>
+  <ol><li>Select the item after which new content should be inserted.</li><li>Use the Song, Scripture, Text, or Media toolbar icon, or type into <strong>Quick Add</strong>.</li><li>Quick Add accepts song/media names and references such as <code>Joh 1</code> or <code>John 1:1-14 (CSB)</code>. Without a version, the last-used Bible is selected.</li><li>Press Enter to insert the first result. Use Up/Down inside the results when another match is needed.</li><li>Use the toolbar arrow buttons or drag schedule rows to reorder them.</li><li>Right-click a scheduled song and choose <strong>Edit Song</strong> to update the library song and its scheduled slides.</li></ol>
+  <figure class="shot"><div class="shot-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i>JDP Presenter — Sunday Service</div><div class="shot-body schedule-shot"><div class="schedule"><div class="tools"><span class="tool">♪</span><span class="tool">B</span><span class="tool">T</span><span class="tool">▣</span><span class="tool">↑</span><span class="tool">↓</span></div><div class="search">Quick add: song, Scripture reference, or media</div><div class="row">Welcome</div><div class="row selected">John 1:1-14 (CSB)</div><div class="row">Crown Him with Many Crowns</div></div><div class="preview">¹ In the beginning was the Word,<br>and the Word was with God,<br>and the Word was God.</div></div><figcaption>Schedule: toolbar, Quick Add, selected insertion point, and current preview.</figcaption></figure>
+</section>
+<section id="present">
+  <h2>4. Run the Schedule on Desktop</h2>
+  <ol><li>Choose <strong>Output → View Output on Secondary Screen</strong>, or use the monitor button on the Output toolbar.</li><li>Select a schedule item. Double-click it to make it live.</li><li>Use the configured item and slide shortcuts to navigate. The current assignments are listed below and can be changed in <strong>Settings → Keyboard Shortcuts</strong>.</li><li>Use Show/Hide to switch projection visibility and Black Output to blank it immediately.</li><li>For audio/video items, use Play/Pause and the seek control. Global shortcuts are suspended while typing in Quick Add.</li><li>Scripture poetry preserves source line breaks and keeps a verse together on one page when it fits. Stanza gaps appear only when the imported Bible contains explicit blank lines.</li></ol>
+  <h3>Current keyboard shortcuts</h3>
+  <table><thead><tr><th>Shortcut</th><th>Function</th></tr></thead><tbody>{{HOTKEY_ROWS}}</tbody></table>
+</section>
+<section id="remote">
+  <h2>5. Run from the Mobile Remote</h2>
+  <ol><li>Connect the phone/tablet to the same network as the presenter computer.</li><li>Show the QR code from the Output menu and scan it.</li><li>The remote shows current title, page number, previous/next, Live/Black, media, and recording controls.</li><li>On portrait phones, current and next previews appear below the controls. On tablets and desktop browsers (768 px or wider), they appear above the controls in a two-column layout.</li></ol>
+  <figure class="shot"><div class="shot-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i>JDP Presenter Remote — tablet view</div><div class="remote-shot"><div><b>Current · John 1</b><div class="remote-slide">¹ In the beginning was the Word…</div></div><div><b>Next · Crown Him</b><div class="remote-slide">Crown Him with many crowns</div></div><div class="remote-controls"><div>◀ Prev &nbsp; Next ▶</div><div>▶ Play &nbsp; ■ Stop</div><div>● Start &nbsp; Ⅱ Pause &nbsp; ■ Stop</div></div></div><figcaption>Tablet/desktop remote: current and next previews plus compact controls.</figcaption></figure>
+</section>
+<section id="record">
+  <h2>6. Start, Pause, and Stop Recording</h2>
+  <h3>Desktop</h3><ol><li>Click the Record icon or use the configured Start/Stop Recording shortcut.</li><li>Confirm the schedule-based filename, format, and quality. Select <strong>Remember Settings</strong> to skip this prompt next time.</li><li>Use the recording indicator or configured Pause/Resume Recording shortcut. Re-enable prompting under <strong>Settings → Recording</strong>.</li><li>Stop recording to finalize the file. WAV works without additional software; MP3 and M4A conversion require a separately installed FFmpeg executable on PATH.</li></ol>
+  <h3>Mobile remote</h3><ol><li>Tap <strong>Start</strong>. The current service name and saved recording settings are used.</li><li>Tap <strong>Pause</strong>; tap <strong>Resume</strong> to continue.</li><li>Tap <strong>Stop</strong> to finalize the file.</li></ol>
+</section>
+</main>
+</body>
+</html>

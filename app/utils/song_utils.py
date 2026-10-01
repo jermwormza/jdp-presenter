@@ -1,9 +1,19 @@
-"""Smart-paste parsing: turn pasted lyrics text into labeled Verse entries."""
+"""Song helpers: search normalization, smart-paste parsing, and verse-order resolution."""
 from __future__ import annotations
 
 import re
 
 from app.models.song import Verse
+
+_PUNCTUATION_RE = re.compile(r"[^\w\s]", re.UNICODE)
+_WHITESPACE_RE = re.compile(r"\s+")
+
+
+def normalize_search_text(text: str) -> str:
+    """Casefold, strip punctuation, and collapse whitespace so searches ignore apostrophes
+    (straight or curly), commas, and spacing differences between the query and the library."""
+    return _WHITESPACE_RE.sub(" ", _PUNCTUATION_RE.sub("", text)).casefold().strip()
+
 
 _HEADER_RE = re.compile(
     r"^\s*(verse\s*(?P<vnum>\d+)?|chorus|bridge|pre-?chorus|tag|ending|intro)\s*:?\s*$", re.IGNORECASE

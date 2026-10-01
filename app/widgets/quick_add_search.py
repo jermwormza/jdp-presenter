@@ -28,7 +28,7 @@ from app.stores.service_store import ServiceStore
 from app.stores.song_store import SongStore
 from app.utils.bible_utils import find_verses, format_reference, parse_reference
 from app.utils.icons import media_icon, scripture_icon, song_icon
-from app.utils.song_utils import resolve_verse_order
+from app.utils.song_utils import normalize_search_text, resolve_verse_order
 
 _TRANSLATION_RE = re.compile(r"^(?P<reference>.+?)\s*\((?P<translation>[^()]+)\)\s*$")
 _MEDIA_DIRECTORIES = (
@@ -145,9 +145,12 @@ class QuickAddSearch(QWidget):
             self._results.append(scripture_result)
 
         needle = query.casefold()
+        # Match songs the same way the Song Browser does, so a title like "Don't Stop"
+        # or "Here I Am, Lord" is found whether or not the punctuation is typed.
+        song_needle = normalize_search_text(query)
         for song in self._song_store.songs:
-            searchable = f"{song.title} {song.author}".casefold()
-            if needle in searchable:
+            searchable = normalize_search_text(f"{song.title} {song.author or ''}")
+            if song_needle and song_needle in searchable:
                 self._results.append(
                     QuickAddResult("song", song.title, song.author or "Song", song.id)
                 )

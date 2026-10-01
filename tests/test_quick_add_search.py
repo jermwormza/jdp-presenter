@@ -84,6 +84,28 @@ class QuickAddSearchTests(unittest.TestCase):
         assert self.service_store.service is not None
         self.assertEqual(self.service_store.service.items[-1].title, "Crown Him with Many Crowns")
 
+    def test_search_matches_song_titles_ignoring_punctuation_like_song_browser(self) -> None:
+        self.song_store._songs.append(
+            Song(
+                id="song-2",
+                title="Here I Am, Lord (Don\u2019t Be Afraid)",
+                author=None,
+                verses=[Verse("v1", "Here I am, Lord")],
+                verse_order=["v1"],
+            )
+        )
+        widget = QuickAddSearch(self.service_store, self.song_store, self.bible_store)
+
+        for query in ("here i am lord", "dont be afraid", "don't be"):
+            with self.subTest(query=query):
+                widget._search.setText(query)
+                widget._refresh_results()
+                self.assertEqual([result.value for result in widget._results], ["song-2"])
+
+        widget._search.setText("none")
+        widget._refresh_results()
+        self.assertEqual(widget._results, [])
+
     def test_enter_inserts_only_result_without_waiting_for_debounce(self) -> None:
         widget = QuickAddSearch(self.service_store, self.song_store, self.bible_store)
         widget._search.setText("Crown Him with Many Crowns")

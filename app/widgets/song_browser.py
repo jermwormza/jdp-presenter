@@ -1,7 +1,6 @@
 """Song library browser: search, pick a song + verse order, add it to the current service."""
 from __future__ import annotations
 
-import re
 import uuid
 
 from PySide6.QtCore import Qt, QTimer
@@ -26,15 +25,9 @@ from app.models.song import Song
 from app.models.theme import default_theme
 from app.stores.service_store import ServiceStore
 from app.stores.song_store import SongStore
+from app.utils.song_utils import normalize_search_text as _normalize
 from app.utils.song_utils import resolve_verse_order
 from app.widgets.song_editor import SongEditor
-
-_PUNCTUATION_RE = re.compile(r"[^\w\s]", re.UNICODE)
-
-
-def _normalize(text: str) -> str:
-    """Lowercase and strip punctuation, so search/sort ignore things like apostrophes."""
-    return _PUNCTUATION_RE.sub("", text).lower()
 
 
 class SongBrowser(QDialog):

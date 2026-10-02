@@ -1,6 +1,6 @@
 [project]
 name = "jdp-presenter"
-version = "0.1.1"
+version = "0.1.2"
 description = "Church presentation app (Python/PySide6 rewrite) for managing services, projecting content, and recording sermons"
 license = "Apache-2.0"
 license-files = ["LICENSE"]

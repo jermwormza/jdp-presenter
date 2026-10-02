@@ -12,7 +12,7 @@
     header { background:#12212a; color:#fff; padding:28px max(24px,calc((100vw - 1050px)/2)); }
     h1 { margin:0 0 6px; font-size:30px; letter-spacing:0; }
     header p { margin:0; color:#c5d7df; }
-    nav { position:sticky; top:0; z-index:2; display:flex; gap:6px; overflow:auto; padding:9px max(18px,calc((100vw - 1050px)/2)); background:var(--panel); border-bottom:1px solid var(--line); }
+    nav { position:sticky; top:0; z-index:2; display:flex; flex-wrap:wrap; gap:6px; padding:9px max(18px,calc((100vw - 1050px)/2)); background:var(--panel); border-bottom:1px solid var(--line); }
     nav a { white-space:nowrap; color:var(--ink); text-decoration:none; padding:5px 9px; border-radius:4px; }
     nav a:hover { background:var(--soft); color:var(--accent); }
     main { max-width:1050px; margin:auto; padding:26px 22px 60px; }
@@ -54,59 +54,112 @@
 </head>
 <body>
 <header><h1>JDP Presenter Help</h1><p>Setup, library management, schedule building, presenting, and recording</p></header>
-<nav><a href="#start">Getting started</a><a href="#settings">Settings</a><a href="#import">Import</a><a href="#services">Services</a><a href="#schedule">Schedule</a><a href="#themes">Themes</a><a href="#present">Present</a><a href="#remote">Remote</a><a href="#record">Recording</a><a href="#export">Export &amp; Print</a><a href="#updates">Updates</a></nav>
+<nav><a href="#start">Getting started</a><a href="#toolbars">Toolbars</a><a href="#settings">Settings</a><a href="#import">Import</a><a href="#services">Services</a><a href="#schedule">Schedule</a><a href="#songs">Songs</a><a href="#themes">Themes</a><a href="#present">Present</a><a href="#remote">Remote</a><a href="#record">Recording</a><a href="#export">Export &amp; Print</a><a href="#updates">Updates</a></nav>
 <main>
 <section id="start">
   <h2>1. Getting Started</h2>
   <p>JDP Presenter opens two windows: the <strong>Control</strong> window where you build and run the schedule, and the <strong>Output</strong> window that is projected to the congregation.</p>
   <ol><li><strong>Two monitors:</strong> when a second display is connected at launch, the Output window opens full-screen on it automatically and the Control window stays on the primary display.</li><li><strong>One monitor:</strong> the Output window opens as a normal window behind the Control window so it never covers your controls. Use <strong>Output → View Output on Secondary Screen</strong> (or the monitor button on the toolbar) to send it full-screen once a projector is connected.</li><li>Press <kbd>?</kbd> (default) at any time to see the current keyboard shortcuts.</li></ol>
 </section>
+  <section id="toolbars">
+    <h2>2. Toolbar Buttons</h2>
+    <p>Hover any button for its tooltip. The Control window has five toolbars: the <strong>Main</strong> toolbar across the top, the <strong>Schedule</strong> toolbar above the schedule list, and the <strong>Output</strong>, <strong>Media</strong>, and <strong>Media Scale</strong> toolbars above the preview.</p>
+    <h3>Main toolbar (top of the window)</h3>
+    <table><thead><tr><th>Button</th><th>What it does</th></tr></thead><tbody>
+    <tr><td><strong>New Service</strong></td><td>Starts an empty service (prompts to save unsaved changes first).</td></tr>
+    <tr><td><strong>Open Service</strong></td><td>Opens a saved service file from the services folder.</td></tr>
+    <tr><td><strong>Save Service</strong></td><td>Saves the current service; asks for a name the first time.</td></tr>
+    <tr><td><strong>Import</strong></td><td>Opens the Import dialog for songs, Bibles, and library packages (see Import).</td></tr>
+    <tr><td><strong>Export</strong></td><td>Exports the service as a Summary or Full Service text (see Export &amp; Print).</td></tr>
+    <tr><td><strong>Print</strong></td><td>Opens a printable preview of the Summary or Full Service.</td></tr>
+    <tr><td><strong>Record</strong> / <strong>Stop</strong></td><td>Starts an audio recording of the service; the same button stops it (see Recording).</td></tr>
+    </tbody></table>
+    <h3>Schedule toolbar (above the schedule list)</h3>
+    <table><thead><tr><th>Button</th><th>What it does</th></tr></thead><tbody>
+    <tr><td><strong>Add Song…</strong></td><td>Opens the Song Library to search, preview, and add a song after the selected item.</td></tr>
+    <tr><td><strong>Add Scripture…</strong></td><td>Opens the Scripture dialog to choose a translation and reference.</td></tr>
+    <tr><td><strong>Add Text…</strong></td><td>Adds a free-text item (announcements, welcome, notices).</td></tr>
+    <tr><td><strong>Add Media…</strong></td><td>Opens the Media Library to insert an image, video, or audio file.</td></tr>
+    <tr><td><strong>Move Selected Item Up</strong> / <strong>Down</strong></td><td>Reorders the selected schedule item (rows can also be dragged).</td></tr>
+    <tr><td><strong>Delete Selected Item</strong></td><td>Removes the selected item (asks for confirmation when enabled in Settings → General).</td></tr>
+    </tbody></table>
+    <h3>Output toolbar (above the preview)</h3>
+    <table><thead><tr><th>Button</th><th>What it does</th></tr></thead><tbody>
+    <tr><td><strong>Hide</strong> / <strong>Show</strong></td><td>Blanks the projected output or brings it back. The label shows the action that will happen next.</td></tr>
+    <tr><td><strong>A−</strong> / <strong>A+</strong></td><td>Decreases or increases the output font size for the current service.</td></tr>
+    <tr><td><strong>4:3</strong> / <strong>16:9</strong> / <strong>16:10</strong></td><td>Sets the output canvas aspect ratio to match the projector.</td></tr>
+    <tr><td><strong>Play/Pause Media</strong></td><td>Plays or pauses the live audio/video item (enabled only when a media item is live).</td></tr>
+    <tr><td><strong>Show QR Code for Remote Control</strong></td><td>Toggles the pairing QR code on the output so a phone can scan it.</td></tr>
+    <tr><td><strong>View Output on Secondary Screen</strong></td><td>Sends the Output window full-screen to the second display (or the primary display if there is only one).</td></tr>
+    </tbody></table>
+    <h3>Media toolbar</h3>
+    <table><thead><tr><th>Control</th><th>What it does</th></tr></thead><tbody>
+    <tr><td><strong>Seek slider</strong></td><td>Shows playback position of the live audio/video item; drag it to scrub. Playback resumes automatically if it was playing.</td></tr>
+    </tbody></table>
+    <h3>Media Scale toolbar</h3>
+    <table><thead><tr><th>Button</th><th>What it does</th></tr></thead><tbody>
+    <tr><td><strong>Fit</strong></td><td>Shows the whole image/video inside the canvas with letterboxing if needed.</td></tr>
+    <tr><td><strong>Original</strong></td><td>Shows the media at its native pixel size.</td></tr>
+    <tr><td><strong>Fill Width</strong> / <strong>Fill Height</strong></td><td>Scales the media to fill the canvas width or height, cropping the other dimension.</td></tr>
+    </tbody></table>
+    <p class="note">The Media Scale buttons are enabled only while an image or video item is live, and the choice is saved on that schedule item.</p>
+  </section>
 <section id="settings">
-  <h2>2. Settings</h2>
+  <h2>3. Settings</h2>
   <ol><li>Open <strong>File → Settings…</strong>. Select a page on the left and edit its values on the right.</li><li><strong>General</strong> — auto-save the service on changes, confirm before deleting items, remember window positions and sizes, and check for new versions on startup.</li><li><strong>Presentation</strong> — default aspect ratio (<code>4:3</code>, <code>16:9</code>, <code>16:10</code>), default font scale (50–300%), default media scale (<code>Fit</code>, <code>Original</code>, <code>Fill Width</code>, <code>Fill Height</code>), and whether to auto-advance to the next item after the last slide.</li><li><strong>Audio</strong> — recording input and monitoring output devices (or <code>System Default</code>).</li><li><strong>Recording</strong> — default format (<code>MP3</code>, <code>WAV</code>, <code>AAC (M4A)</code>), quality, output folder, and whether to always prompt when starting a recording.</li><li><strong>Keyboard Shortcuts</strong> — click any shortcut button and press its replacement key combination. Conflicting shortcuts are rejected; <strong>Restore Defaults</strong> returns to the standard layout.</li><li><strong>Libraries</strong> — folders for Bibles, songs, services, and media. Location changes take effect after JDP Presenter restarts.</li><li><strong>Remote Control</strong> — the remote server port (default <code>5183</code>) and whether to auto-show the pairing QR code when the server starts.</li><li><strong>Integrations</strong> — optional OpenAI API key. Dropbox sync is not yet implemented.</li></ol>
   <figure class="shot"><div class="shot-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i>Settings</div><div class="shot-body settings-shot"><div class="side"><div>General</div><div>Presentation</div><div>Audio</div><div>Recording</div><div>Keyboard Shortcuts</div><div class="active">Libraries</div><div>Remote Control</div><div>Integrations</div></div><div class="form"><div class="field"><b>Bibles</b><span class="input">C:\ProgramData\jdp-presenter\bibles</span></div><div class="field"><b>Songs</b><span class="input">C:\ProgramData\jdp-presenter\songs</span></div><div class="field"><b>Services</b><span class="input">C:\ProgramData\jdp-presenter\services</span></div><div class="field"><b>Media</b><span class="input">C:\ProgramData\jdp-presenter\media</span></div></div></div><figcaption>Settings: select a page on the left, then edit its values on the right.</figcaption></figure>
 </section>
 <section id="import">
-  <h2>3. Import, Back Up, and Restore Libraries</h2>
+  <h2>4. Import, Back Up, and Restore Libraries</h2>
   <ol><li>Choose <strong>File → Import…</strong> or the Import toolbar button.</li><li>Select the resource type: <strong>JDP Library package</strong> (<code>.jdplibrary</code>, songs and Bibles together), <strong>Bible — Zefania XML</strong>, or songs from a <strong>Quelea song pack</strong> (<code>.qsp</code>), <strong>Quelea .script</strong>, <strong>OpenLP database</strong> (<code>.sqlite</code>), <strong>OpenLyrics library</strong> (<code>.zip</code>), <strong>OpenLyrics XML</strong> (single file), or an <strong>OpenSong XML</strong> folder.</li><li>Tick <strong>Replace existing library contents when importing</strong> only when the matching library should be cleared first.</li><li>Click <strong>Choose &amp; Import…</strong>, select the source, and wait for the imported/failed summary.</li><li><strong>Backup Libraries…</strong> saves all songs and Bibles to a portable <code>.jdplibrary</code> file; <strong>Restore Libraries…</strong> replaces the libraries from a <code>.jdplibrary</code> (or legacy song-backup <code>.zip</code>).</li><li>For media, open <strong>Insert → Add Media…</strong> and use <strong>Import to Library</strong> (<strong>Files…</strong> or <strong>Folder…</strong>), or drag supported image, video, and audio files directly onto the schedule.</li></ol>
   <p class="note">Replace affects only the selected library type. Application settings are always retained.</p>
 </section>
 <section id="services">
-  <h2>4. Services</h2>
+  <h2>5. Services</h2>
   <ol><li><strong>File → New</strong> starts an empty service; <strong>Open…</strong> loads a saved service file; <strong>Save</strong> / <strong>Save As…</strong> write it to the services folder.</li><li>With <strong>Auto-save service on changes</strong> enabled in Settings, edits are written automatically; otherwise you are prompted to save unsaved changes when closing.</li><li>The last opened service is reopened at the next launch.</li></ol>
 </section>
 <section id="schedule">
-  <h2>5. Build the Schedule</h2>
-  <ol><li>Select the item after which new content should be inserted.</li><li>Use <strong>Insert → Add Song…</strong>, <strong>Add Scripture…</strong>, <strong>Add Text…</strong>, or <strong>Add Media…</strong> (also on the schedule toolbar), or type into <strong>Quick Add</strong>.</li><li>Quick Add searches song titles and authors (punctuation such as apostrophes and commas is ignored), media file names, and Scripture references such as <code>Joh 1</code> or <code>John 1:1-14 (CSB)</code>. Without a version, the last-used Bible is selected.</li><li>Press Enter to insert the first result, or use Up/Down to pick another match. Up to 30 results are listed.</li><li><strong>Add Song…</strong> opens the Song Library: search by title or author, preview all verses, set the play order (for example <code>v1 c v2 c b c</code>), then <strong>Add to Service</strong>. <strong>New Song</strong>, <strong>Edit Song…</strong>, and <strong>Delete…</strong> manage the library. The editor stores title, author, CCLI, copyright, key, tempo, capo, and play order; paste lyrics with blank lines between sections and headings such as <code>Verse 1</code>, <code>Chorus</code>, <code>Bridge</code>, <code>Pre-Chorus</code>, or <code>Tag</code>.</li><li><strong>Add Scripture…</strong> lets you choose a translation, type a reference such as <code>1 Cor 13:4-7</code>, preview the verses, and insert.</li><li><strong>Add Media…</strong> opens the Media Library (Images, Videos, Audio) with preview, per-item scale mode, <strong>Add from Disk…</strong> for one-off files, and <strong>Delete from Library…</strong>.</li><li>Use the <strong>Move Up</strong> / <strong>Move Down</strong> toolbar buttons or drag rows to reorder; <strong>Delete Selected Item</strong> removes an item.</li><li>Right-click a scheduled song and choose <strong>Edit Song…</strong> to update the library song and refresh its scheduled slides.</li></ol>
+  <h2>6. Build the Schedule</h2>
+  <ol><li>Select the item after which new content should be inserted.</li><li>Use <strong>Insert → Add Song…</strong>, <strong>Add Scripture…</strong>, <strong>Add Text…</strong>, or <strong>Add Media…</strong> (also on the schedule toolbar), or type into <strong>Quick Add</strong>.</li><li>Quick Add searches song titles and authors (punctuation such as apostrophes and commas is ignored), media file names, and Scripture references such as <code>Joh 1</code> or <code>John 1:1-14 (CSB)</code>. Without a version, the last-used Bible is selected.</li><li>Press Enter to insert the first result, or use Up/Down to pick another match. Up to 30 results are listed.</li><li><strong>Add Song…</strong> opens the Song Library (see Songs below): search, preview, set the play order, then <strong>Add to Service</strong>.</li><li><strong>Add Scripture…</strong> lets you choose a translation, type a reference such as <code>1 Cor 13:4-7</code>, preview the verses, and insert.</li><li><strong>Add Media…</strong> opens the Media Library (Images, Videos, Audio) with preview, per-item scale mode, <strong>Add from Disk…</strong> for one-off files, and <strong>Delete from Library…</strong>.</li><li>Use the <strong>Move Up</strong> / <strong>Move Down</strong> toolbar buttons or drag rows to reorder; <strong>Delete Selected Item</strong> removes an item.</li><li>Right-click a scheduled song and choose <strong>Edit Song…</strong> to update the library song and refresh its scheduled slides.</li></ol>
   <figure class="shot"><div class="shot-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i>JDP Presenter — Control</div><div class="shot-body schedule-shot"><div class="schedule"><div class="tools"><span class="tool">♪</span><span class="tool">B</span><span class="tool">T</span><span class="tool">▣</span><span class="tool">↑</span><span class="tool">↓</span><span class="tool">✕</span></div><div class="search">Quick add: song, Scripture reference (Version), or media</div><div class="row">Welcome</div><div class="row selected">John 1:1-14 (CSB)</div><div class="row">Crown Him with Many Crowns</div></div><div class="preview">¹ In the beginning was the Word,<br>and the Word was with God,<br>and the Word was God.</div></div><figcaption>Schedule: toolbar, Quick Add, selected insertion point, and current preview.</figcaption></figure>
 </section>
+  <section id="songs">
+    <h2>7. Songs and the Song Library</h2>
+    <p>Open the Song Library with <strong>Insert → Add Song…</strong> or the <strong>Add Song…</strong> button on the Schedule toolbar. Type in <strong>Search title or author…</strong> to filter; select a song to preview all its verses in order.</p>
+    <h3>Add a new song to the library</h3>
+    <ol><li>In the Song Library, click <strong>New Song</strong>. The <strong>New Song</strong> editor opens.</li><li>Enter the <strong>Title</strong> (a blank title is saved as “Untitled”) and, optionally, <strong>Author</strong>, <strong>CCLI</strong> number, <strong>Copyright</strong>, <strong>Key</strong>, <strong>Tempo</strong>, and <strong>Capo</strong>.</li><li>Paste or type the lyrics into the large box. Separate each section with a <em>blank line</em>. Put an optional heading on the first line of a section — <code>Verse 1</code>, <code>Verse 2</code>, <code>Chorus</code>, <code>Bridge</code>, <code>Pre-Chorus</code>, or <code>Tag</code>. Sections without a heading are numbered as verses automatically.</li><li>Set the <strong>Play Order</strong> using the short section labels, for example <code>v1 c v2 c b c</code> (v = verse, c = chorus, b = bridge, p = pre-chorus, tag = tag). Leave it blank to present the sections in the order they were typed.</li><li>Click <strong>OK</strong>. The song is saved to the song library and appears in the list immediately; it is also found by Quick Add.</li><li>To use it now, select it and click <strong>Add to Service</strong>. Changing the <strong>Verse order</strong> box in the library before adding affects only that scheduled copy, not the saved song.</li></ol>
+    <p class="note">Example lyrics layout:<br><code>Verse 1</code><br><code>Crown Him with many crowns,</code><br><code>The Lamb upon His throne;</code><br>(blank line)<br><code>Chorus</code><br><code>Awake, my soul, and sing…</code></p>
+    <h3>Edit or remove a song</h3>
+    <ol><li>Select the song and click <strong>Edit Song…</strong>, or right-click a song already on the schedule and choose <strong>Edit Song…</strong>; saving refreshes the library song and any scheduled slides.</li><li><strong>Delete…</strong> removes the selected song from the library after confirmation. Songs already on a schedule keep their slides.</li></ol>
+    <p>To bring in many songs at once, use <strong>File → Import…</strong> (Quelea, OpenLP, OpenLyrics, OpenSong, or a <code>.jdplibrary</code> package) — see Import.</p>
+  </section>
 <section id="themes">
-  <h2>6. Themes</h2>
+  <h2>8. Themes</h2>
   <ol><li><strong>Theme → Theme Gallery…</strong> lists prebuilt looks; select one and apply it to the current service.</li><li><strong>Theme → Theme Editor…</strong> adjusts the background colour, Scripture verse text colour and size, reference colour, whether the Bible version label is shown, song lyric colour and size, and whether song metadata is shown.</li><li>Use <strong>Output → Font Size → Increase / Decrease</strong> (toolbar <strong>A−</strong> / <strong>A+</strong>) for quick live adjustments without changing the theme.</li></ol>
 </section>
 <section id="present">
-  <h2>7. Present</h2>
+  <h2>9. Present</h2>
   <ol><li>Connect the projector. If it was connected before launch the Output window is already full-screen on it; otherwise choose <strong>Output → View Output on Secondary Screen</strong> or the monitor toolbar button.</li><li>Set the canvas with <strong>Output → Aspect Ratio</strong> (<code>4:3</code>, <code>16:9</code>, <code>16:10</code>) to match the projector.</li><li>Select a schedule item. Double-click it to make it live. The <strong>Next Item</strong> preview shows what follows.</li><li>Navigate with the configured item and slide shortcuts (listed below; change them in <strong>Settings → Keyboard Shortcuts</strong>).</li><li><strong>Show / Hide</strong> (Output menu and toolbar) toggles projection visibility; the <strong>Black Output</strong> shortcut blanks the screen instantly without changing position.</li><li>For audio/video items use <strong>Play/Pause Media</strong>, the seek slider, and the media scale buttons (<code>Fit</code>, <code>Original</code>, <code>Fill Width</code>, <code>Fill Height</code>). Global shortcuts are suspended while typing in Quick Add.</li><li>Scripture poetry preserves source line breaks and keeps a verse together on one page when it fits. Stanza gaps appear only when the imported Bible contains explicit blank lines.</li></ol>
   <h3>Current keyboard shortcuts</h3>
   <table><thead><tr><th>Shortcut</th><th>Function</th></tr></thead><tbody>{{HOTKEY_ROWS}}</tbody></table>
 </section>
 <section id="remote">
-  <h2>8. Run from the Mobile Remote</h2>
+  <h2>10. Run from the Mobile Remote</h2>
   <ol><li>Connect the phone/tablet to the same network as the presenter computer.</li><li>Choose <strong>Output → Show QR Code</strong> (or the QR toolbar button) and scan it; the pairing dialog also shows the URL to type manually. The port can be changed under <strong>Settings → Remote Control</strong>.</li><li>The remote shows the current title and page number, <strong>◀ Prev</strong> / <strong>Next ▶</strong>, <strong>Live</strong> and <strong>Black</strong> toggles, media <strong>Play</strong> / <strong>Pause</strong> / <strong>Stop</strong>, recording <strong>Start</strong> / <strong>Pause</strong> / <strong>Stop</strong>, and a Connected/Disconnected indicator.</li><li>On portrait phones, <strong>Current</strong> and <strong>Next</strong> previews appear below the controls. On tablets and desktop browsers (768 px or wider), they appear above the controls in a two-column layout.</li></ol>
   <figure class="shot"><div class="shot-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i>JDP Presenter Remote — tablet view</div><div class="remote-shot"><div><b>Current · John 1</b><div class="remote-slide">¹ In the beginning was the Word…</div></div><div><b>Next · Crown Him</b><div class="remote-slide">Crown Him with many crowns</div></div><div class="remote-controls"><div>◀ Prev &nbsp; Next ▶</div><div>▶ Play &nbsp; ■ Stop</div><div>● Start &nbsp; Ⅱ Pause &nbsp; ■ Stop</div></div></div><figcaption>Tablet/desktop remote: current and next previews plus compact controls.</figcaption></figure>
 </section>
 <section id="record">
-  <h2>9. Record the Service</h2>
+  <h2>11. Record the Service</h2>
   <h3>Desktop</h3><ol><li>Click the <strong>Record</strong> toolbar button or use the configured Start/Stop Recording shortcut.</li><li>Confirm the schedule-based filename, format, and quality. Select <strong>Remember Settings</strong> to skip this prompt next time; re-enable it under <strong>Settings → Recording</strong>.</li><li>Use the recording indicator or the configured Pause/Resume Recording shortcut while recording.</li><li>Click <strong>Stop</strong> to finalize the file. WAV works without additional software; MP3 and M4A conversion require a separately installed FFmpeg executable on PATH.</li></ol>
   <h3>Recordings pane</h3><ol><li>The <strong>Recordings</strong> pane in the Control window lists saved recordings newest first with their time and size.</li><li>Use the pane buttons to refresh the list, open the recordings folder, play the selected recording, or stop playback; double-click a recording to play it.</li><li>Right-click a recording for <strong>Play</strong>, <strong>Delete</strong>, or <strong>Show In Explorer</strong> (Finder/file manager on other systems).</li></ol>
   <h3>Mobile remote</h3><ol><li>Tap <strong>Start</strong>. The current service name and saved recording settings are used.</li><li>Tap <strong>Pause</strong>; tap <strong>Resume</strong> to continue.</li><li>Tap <strong>Stop</strong> to finalize the file.</li></ol>
 </section>
 <section id="export">
-  <h2>10. Export and Print</h2>
+  <h2>12. Export and Print</h2>
   <ol><li><strong>File → Export…</strong> offers a <strong>Summary</strong> (plain-text outline with item numbers, titles, and song verse counts) or the <strong>Full Service</strong> (Markdown containing Scripture, lyrics, text, and media references). Use <strong>Copy to Clipboard</strong> or <strong>Save As…</strong> (<code>.txt</code> / <code>.md</code>).</li><li><strong>File → Print…</strong> opens the same Summary or Full Service content as a preview you can copy or save for printing.</li></ol>
 </section>
 <section id="updates">
-  <h2>11. Updates</h2>
+  <h2>13. Updates</h2>
   <ol><li>JDP Presenter checks GitHub Releases at startup when <strong>Check for new versions on startup</strong> is enabled; <strong>Help → Check for Updates…</strong> runs a check at any time.</li><li>When a newer version exists, choose <strong>Download &amp; Install</strong>. The update is downloaded with a progress indicator.</li><li><strong>Windows:</strong> JDP Presenter saves your work, closes, and the installer upgrades it in place and relaunches the app. Windows may ask for permission to continue.</li><li><strong>macOS:</strong> the downloaded disk image opens; drag JDP Presenter into Applications to replace the current version. <strong>Linux:</strong> the folder containing the downloaded archive opens; extract it over the existing installation.</li><li><strong>Open Release Page</strong> opens the release notes and downloads in a browser instead.</li></ol>
 </section>
 </main>

@@ -1,6 +1,6 @@
 #define MyAppName "JDP Presenter"
 #ifndef MyAppVersion
-#define MyAppVersion "0.1.2"
+#define MyAppVersion "0.1.3"
 #endif
 #define MyAppPublisher "JDP"
 #define MyAppExeName "JDP Presenter.exe"

@@ -49,6 +49,10 @@
     table { width:100%; border-collapse:collapse; background:var(--panel); }
     th,td { padding:8px 10px; border:1px solid var(--line); text-align:left; }
     .note { padding:10px 12px; border-left:4px solid var(--accent); background:var(--panel); }
+    .icon { vertical-align:middle; }
+    td.btn-cell { width:140px; white-space:nowrap; }
+    .btn { display:inline-block; min-width:30px; margin:1px 2px; padding:2px 7px; border:1px solid var(--line); border-radius:4px; background:var(--soft); font-weight:600; text-align:center; }
+    .btn.icon-btn { padding:3px 6px; line-height:0; }
     @media (max-width:650px) { .settings-shot,.schedule-shot,.remote-shot { grid-template-columns:1fr; } .side { border-right:0; } .field { grid-template-columns:1fr; gap:3px; } }
   </style>
 </head>
@@ -65,42 +69,42 @@
     <h2>2. Toolbar Buttons</h2>
     <p>Hover any button for its tooltip. The Control window has five toolbars: the <strong>Main</strong> toolbar across the top, the <strong>Schedule</strong> toolbar above the schedule list, and the <strong>Output</strong>, <strong>Media</strong>, and <strong>Media Scale</strong> toolbars above the preview.</p>
     <h3>Main toolbar (top of the window)</h3>
-    <table><thead><tr><th>Button</th><th>What it does</th></tr></thead><tbody>
-    <tr><td><strong>New Service</strong></td><td>Starts an empty service (prompts to save unsaved changes first).</td></tr>
-    <tr><td><strong>Open Service</strong></td><td>Opens a saved service file from the services folder.</td></tr>
-    <tr><td><strong>Save Service</strong></td><td>Saves the current service; asks for a name the first time.</td></tr>
-    <tr><td><strong>Import</strong></td><td>Opens the Import dialog for songs, Bibles, and library packages (see Import).</td></tr>
-    <tr><td><strong>Export</strong></td><td>Exports the service as a Summary or Full Service text (see Export &amp; Print).</td></tr>
-    <tr><td><strong>Print</strong></td><td>Opens a printable preview of the Summary or Full Service.</td></tr>
-    <tr><td><strong>Record</strong> / <strong>Stop</strong></td><td>Starts an audio recording of the service; the same button stops it (see Recording).</td></tr>
+    <table><thead><tr><th>Button</th><th>Name</th><th>What it does</th></tr></thead><tbody>
+    <tr><td class="btn-cell"><span class="btn icon-btn">{{ICON:new}}</span></td><td><strong>New Service</strong></td><td>Starts an empty service (prompts to save unsaved changes first).</td></tr>
+    <tr><td class="btn-cell"><span class="btn icon-btn">{{ICON:open}}</span></td><td><strong>Open Service</strong></td><td>Opens a saved service file from the services folder.</td></tr>
+    <tr><td class="btn-cell"><span class="btn icon-btn">{{ICON:save}}</span></td><td><strong>Save Service</strong></td><td>Saves the current service; asks for a name the first time.</td></tr>
+    <tr><td class="btn-cell"><span class="btn icon-btn">{{ICON:import}}</span></td><td><strong>Import</strong></td><td>Opens the Import dialog for songs, Bibles, and library packages (see Import).</td></tr>
+    <tr><td class="btn-cell"><span class="btn icon-btn">{{ICON:export}}</span></td><td><strong>Export</strong></td><td>Exports the service as a Summary or Full Service text (see Export &amp; Print).</td></tr>
+    <tr><td class="btn-cell"><span class="btn icon-btn">{{ICON:print}}</span></td><td><strong>Print</strong></td><td>Opens a printable preview of the Summary or Full Service.</td></tr>
+    <tr><td class="btn-cell"><span class="btn icon-btn">{{ICON:record}}</span> <span class="btn icon-btn">{{ICON:stop}}</span></td><td><strong>Record</strong> / <strong>Stop</strong></td><td>Starts an audio recording of the service; the button changes to Stop while recording (see Recording).</td></tr>
     </tbody></table>
     <h3>Schedule toolbar (above the schedule list)</h3>
-    <table><thead><tr><th>Button</th><th>What it does</th></tr></thead><tbody>
-    <tr><td><strong>Add Song…</strong></td><td>Opens the Song Library to search, preview, and add a song after the selected item.</td></tr>
-    <tr><td><strong>Add Scripture…</strong></td><td>Opens the Scripture dialog to choose a translation and reference.</td></tr>
-    <tr><td><strong>Add Text…</strong></td><td>Adds a free-text item (announcements, welcome, notices).</td></tr>
-    <tr><td><strong>Add Media…</strong></td><td>Opens the Media Library to insert an image, video, or audio file.</td></tr>
-    <tr><td><strong>Move Selected Item Up</strong> / <strong>Down</strong></td><td>Reorders the selected schedule item (rows can also be dragged).</td></tr>
-    <tr><td><strong>Delete Selected Item</strong></td><td>Removes the selected item (asks for confirmation when enabled in Settings → General).</td></tr>
+    <table><thead><tr><th>Button</th><th>Name</th><th>What it does</th></tr></thead><tbody>
+    <tr><td class="btn-cell"><span class="btn icon-btn">{{ICON:song}}</span></td><td><strong>Add Song…</strong></td><td>Opens the Song Library to search, preview, and add a song after the selected item.</td></tr>
+    <tr><td class="btn-cell"><span class="btn icon-btn">{{ICON:scripture}}</span></td><td><strong>Add Scripture…</strong></td><td>Opens the Scripture dialog to choose a translation and reference.</td></tr>
+    <tr><td class="btn-cell"><span class="btn icon-btn">{{ICON:text}}</span></td><td><strong>Add Text…</strong></td><td>Adds a free-text item (announcements, welcome, notices).</td></tr>
+    <tr><td class="btn-cell"><span class="btn icon-btn">{{ICON:media}}</span></td><td><strong>Add Media…</strong></td><td>Opens the Media Library to insert an image, video, or audio file.</td></tr>
+    <tr><td class="btn-cell"><span class="btn icon-btn">{{ICON:move_up}}</span> <span class="btn icon-btn">{{ICON:move_down}}</span></td><td><strong>Move Selected Item Up</strong> / <strong>Down</strong></td><td>Reorders the selected schedule item (rows can also be dragged).</td></tr>
+    <tr><td class="btn-cell"><span class="btn icon-btn">{{ICON:delete}}</span></td><td><strong>Delete Selected Item</strong></td><td>Removes the selected item (asks for confirmation when enabled in Settings → General).</td></tr>
     </tbody></table>
     <h3>Output toolbar (above the preview)</h3>
-    <table><thead><tr><th>Button</th><th>What it does</th></tr></thead><tbody>
-    <tr><td><strong>Hide</strong> / <strong>Show</strong></td><td>Blanks the projected output or brings it back. The label shows the action that will happen next.</td></tr>
-    <tr><td><strong>A−</strong> / <strong>A+</strong></td><td>Decreases or increases the output font size for the current service.</td></tr>
-    <tr><td><strong>4:3</strong> / <strong>16:9</strong> / <strong>16:10</strong></td><td>Sets the output canvas aspect ratio to match the projector.</td></tr>
-    <tr><td><strong>Play/Pause Media</strong></td><td>Plays or pauses the live audio/video item (enabled only when a media item is live).</td></tr>
-    <tr><td><strong>Show QR Code for Remote Control</strong></td><td>Toggles the pairing QR code on the output so a phone can scan it.</td></tr>
-    <tr><td><strong>View Output on Secondary Screen</strong></td><td>Sends the Output window full-screen to the second display (or the primary display if there is only one).</td></tr>
+    <table><thead><tr><th>Button</th><th>Name</th><th>What it does</th></tr></thead><tbody>
+    <tr><td class="btn-cell"><span class="btn">Hide</span> <span class="btn">Show</span></td><td><strong>Hide</strong> / <strong>Show</strong></td><td>Blanks the projected output or brings it back. The label shows the action that will happen next.</td></tr>
+    <tr><td class="btn-cell"><span class="btn">A-</span> <span class="btn">A+</span></td><td><strong>A−</strong> / <strong>A+</strong></td><td>Decreases or increases the output font size for the current service.</td></tr>
+    <tr><td class="btn-cell"><span class="btn">4:3</span> <span class="btn">16:9</span> <span class="btn">16:10</span></td><td><strong>Aspect ratio</strong></td><td>Sets the output canvas aspect ratio to match the projector.</td></tr>
+    <tr><td class="btn-cell"><span class="btn icon-btn">{{ICON:play}}</span> <span class="btn icon-btn">{{ICON:pause}}</span></td><td><strong>Play/Pause Media</strong></td><td>Plays or pauses the live audio/video item (enabled only when a media item is live).</td></tr>
+    <tr><td class="btn-cell"><span class="btn icon-btn">{{ICON:qr}}</span></td><td><strong>Show QR Code for Remote Control</strong></td><td>Toggles the pairing QR code on the output so a phone can scan it.</td></tr>
+    <tr><td class="btn-cell"><span class="btn icon-btn">{{ICON:output_screen}}</span></td><td><strong>View Output on Secondary Screen</strong></td><td>Sends the Output window full-screen to the second display (or the primary display if there is only one).</td></tr>
     </tbody></table>
     <h3>Media toolbar</h3>
     <table><thead><tr><th>Control</th><th>What it does</th></tr></thead><tbody>
     <tr><td><strong>Seek slider</strong></td><td>Shows playback position of the live audio/video item; drag it to scrub. Playback resumes automatically if it was playing.</td></tr>
     </tbody></table>
     <h3>Media Scale toolbar</h3>
-    <table><thead><tr><th>Button</th><th>What it does</th></tr></thead><tbody>
-    <tr><td><strong>Fit</strong></td><td>Shows the whole image/video inside the canvas with letterboxing if needed.</td></tr>
-    <tr><td><strong>Original</strong></td><td>Shows the media at its native pixel size.</td></tr>
-    <tr><td><strong>Fill Width</strong> / <strong>Fill Height</strong></td><td>Scales the media to fill the canvas width or height, cropping the other dimension.</td></tr>
+    <table><thead><tr><th>Button</th><th>Name</th><th>What it does</th></tr></thead><tbody>
+    <tr><td class="btn-cell"><span class="btn">Fit</span></td><td><strong>Fit</strong></td><td>Shows the whole image/video inside the canvas with letterboxing if needed.</td></tr>
+    <tr><td class="btn-cell"><span class="btn">Original</span></td><td><strong>Original</strong></td><td>Shows the media at its native pixel size.</td></tr>
+    <tr><td class="btn-cell"><span class="btn">Fill Width</span> <span class="btn">Fill Height</span></td><td><strong>Fill Width</strong> / <strong>Fill Height</strong></td><td>Scales the media to fill the canvas width or height, cropping the other dimension.</td></tr>
     </tbody></table>
     <p class="note">The Media Scale buttons are enabled only while an image or video item is live, and the choice is saved on that schedule item.</p>
   </section>

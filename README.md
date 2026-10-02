@@ -82,6 +82,14 @@ individual Release assets up to 2 GiB. The in-app updater checks the latest publ
 release from `jermwormza/jdp-presenter`, so both the repository and release must be
 public for installed applications to check without credentials.
 
+Pushing a `v*` tag runs the release workflow, which publishes
+`JDP-Presenter-Setup.exe`, `JDP-Presenter-windows.zip`, `JDP-Presenter-macos.dmg`,
+and `JDP-Presenter-linux.tar.gz`. The in-app updater downloads the matching asset
+directly: on Windows it runs the installer silently (`/SILENT /AUTOUPDATE=1`), which
+upgrades in place and relaunches the app; on macOS and Linux it opens the downloaded
+disk image or archive folder for a manual replace. Keep those asset names stable, as
+the updater selects by file extension (`-Setup.exe` preferred over `.zip` on Windows).
+
 The build creates `dist\JDP Presenter\JDP Presenter.exe` and
 `dist\installer\JDP-Presenter-Setup.exe`. The installer creates empty library
 directories under `%ProgramData%\jdp-presenter` and never bundles Bible, song,

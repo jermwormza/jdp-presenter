@@ -2,6 +2,7 @@
 from __future__ import annotations
 import uuid
 from datetime import datetime, timezone
+from pathlib import Path
 from PySide6.QtCore import QSize, Qt, QTimer, QUrl
 from PySide6.QtGui import (
     QAction,
@@ -70,7 +71,7 @@ from app.utils.icons import (
 )
 from app.utils.help import open_help
 from app.utils.hotkeys import HOTKEY_DEFINITIONS, configured_hotkeys
-from app.utils.update_checker import ReleaseInfo, UpdateChecker
+from app.utils.update_checker import ReleaseInfo, UpdateChecker, launch_update, select_asset
 from app.utils.window_state import encode_geometry, encode_splitter_state, restore_splitter_state
 from app.version import APP_VERSION
 from app.widgets.bible_browser import BibleBrowser
@@ -91,6 +92,7 @@ from app.widgets.settings_dialog import SettingsDialog
 from app.widgets.song_browser import SongBrowser
 from app.widgets.theme_editor import ThemeEditor
 from app.widgets.theme_gallery import ThemeGallery
+from app.widgets.update_dialog import UpdateDownloadDialog, install_instructions
 from app.utils.exporters import generate_full_markdown, generate_outline
 from app.windows.output_window import OutputWindow
 class ControlWindow(QMainWindow):
@@ -287,16 +289,70 @@ class ControlWindow(QMainWindow):
         self._check_updates_action.setEnabled(not checking)
 
     def _on_update_available(self, release: ReleaseInfo) -> None:
-        reply = QMessageBox.question(
-            self,
-            "Update Available",
-            f"JDP Presenter {release.version} is available. You are using {APP_VERSION}.\n\n"
-            "Open the GitHub Releases page to download it?",
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
-            QMessageBox.StandardButton.Yes,
+        asset = select_asset(release)
+        prompt = QMessageBox(self)
+        prompt.setIcon(QMessageBox.Icon.Information)
+        prompt.setWindowTitle("Update Available")
+        prompt.setText(
+            f"JDP Presenter {release.version} is available. You are using {APP_VERSION}."
         )
-        if reply == QMessageBox.StandardButton.Yes:
+        if asset is not None and asset.is_installer:
+            prompt.setInformativeText(
+                "Download the update and install it now? JDP Presenter will restart "
+                "when the installer finishes."
+            )
+        elif asset is not None:
+            prompt.setInformativeText(
+                f"Download {asset.name} now? It will open when the download completes."
+            )
+        else:
+            prompt.setInformativeText("Open the GitHub Releases page to download it?")
+        download_button = (
+            prompt.addButton("Download && Install", QMessageBox.ButtonRole.AcceptRole)
+            if asset is not None
+            else None
+        )
+        page_button = prompt.addButton("Open Release Page", QMessageBox.ButtonRole.ActionRole)
+        prompt.addButton("Later", QMessageBox.ButtonRole.RejectRole)
+        prompt.setDefaultButton(download_button or page_button)
+        prompt.exec()
+        clicked = prompt.clickedButton()
+        if download_button is not None and clicked == download_button and asset is not None:
+            dialog = UpdateDownloadDialog(asset, release.version, self)
+            dialog.download_finished.connect(self._on_update_downloaded)
+            dialog.download_failed.connect(self._on_update_download_failed)
+            dialog.start()
+        elif clicked == page_button:
             QDesktopServices.openUrl(QUrl(release.url))
+
+    def _on_update_downloaded(self, path: Path) -> None:
+        reply = QMessageBox.information(
+            self,
+            "Ready to Install",
+            install_instructions(path),
+            QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel,
+            QMessageBox.StandardButton.Ok,
+        )
+        if reply != QMessageBox.StandardButton.Ok or not self._prompt_save_if_dirty():
+            return
+        try:
+            launch_update(path)
+        except OSError as exc:
+            QMessageBox.warning(
+                self,
+                "Update Failed",
+                f"The downloaded update could not be started.\n\n{exc}\n\nIt was saved to:\n{path}",
+            )
+            return
+        # Close via the window so geometry/settings are persisted exactly as on a normal exit.
+        self.close()
+
+    def _on_update_download_failed(self, detail: str) -> None:
+        QMessageBox.warning(
+            self,
+            "Update Download Failed",
+            f"JDP Presenter could not download the update.\n\n{detail}",
+        )
 
     def _on_up_to_date(self, latest_version: str) -> None:
         if not self._update_check_silent:

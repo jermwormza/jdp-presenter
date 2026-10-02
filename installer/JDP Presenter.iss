@@ -22,6 +22,8 @@ WizardStyle=modern
 PrivilegesRequired=admin
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
+CloseApplications=yes
+RestartApplications=no
 
 [Tasks]
 Name: "desktopicon"; Description: "Create a desktop shortcut"; GroupDescription: "Additional shortcuts:"
@@ -44,6 +46,8 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: de
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "Launch {#MyAppName}"; Flags: nowait postinstall skipifsilent
+; In-app updater runs this installer silently with /AUTOUPDATE=1; relaunch unelevated when done.
+Filename: "{app}\{#MyAppExeName}"; Flags: nowait runasoriginaluser; Check: IsAutoUpdate
 
 [Code]
 const
@@ -51,6 +55,11 @@ const
 
 var
 	FFmpegPage: TWizardPage;
+
+function IsAutoUpdate: Boolean;
+begin
+	Result := ExpandConstant('{param:AUTOUPDATE|0}') = '1';
+end;
 
 function IsFFmpegAvailable: Boolean;
 begin

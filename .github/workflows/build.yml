@@ -83,6 +83,13 @@ jobs:
         run: |
           Compress-Archive -Path "dist/JDP Presenter" -DestinationPath "dist/JDP-Presenter-windows.zip"
 
+      - name: Build installer with Inno Setup
+        shell: pwsh
+        run: |
+          $version = (Select-String -Path app/version.py -Pattern 'APP_VERSION\s*=\s*"([^"]+)"').Matches[0].Groups[1].Value
+          & "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" "/DMyAppVersion=$version" "installer/JDP Presenter.iss"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v4
         with:
@@ -90,6 +97,7 @@ jobs:
           path: |
             dist/JDP Presenter
             dist/JDP-Presenter-windows.zip
+            dist/installer/JDP-Presenter-Setup.exe
 
       - name: Release (if tag)
         if: startsWith(github.ref, 'refs/tags/')
@@ -97,6 +105,7 @@ jobs:
         with:
           files: |
             dist/JDP-Presenter-windows.zip
+            dist/installer/JDP-Presenter-Setup.exe
           draft: false
           prerelease: false
 

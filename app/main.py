@@ -346,19 +346,22 @@ def _do_initialize_and_show(splash: 'SplashScreen') -> None:
     control_window.set_current_service_path(_load_initial_service(service_store, settings_store))
 
     restore_geometry(control_window, settings_store.get("controlWindowGeometry"))
-    restore_geometry(output_window, settings_store.get("outputWindowGeometry"))
     control_window.restore_layout(
         settings_store.get("controlMainSplitterState"),
         settings_store.get("controlPreviewSplitterState"),
     )
 
+    # Show Output first so that on a single screen the Control window ends up on top;
+    # with a second monitor attached the Output goes full-screen there automatically.
+    print("[MAIN] About to show output_window", flush=True)
+    control_window.show_output_on_startup(settings_store.get("outputWindowGeometry"))
+    print(f"[MAIN] output_window visible: {output_window.isVisible()}, geometry: {output_window.geometry()}", flush=True)
+
     print("[MAIN] About to show control_window", flush=True)
     control_window.show()
+    control_window.raise_()
+    control_window.activateWindow()
     print(f"[MAIN] control_window visible: {control_window.isVisible()}, geometry: {control_window.geometry()}", flush=True)
-    
-    print("[MAIN] About to show output_window", flush=True)
-    output_window.show()
-    print(f"[MAIN] output_window visible: {output_window.isVisible()}, geometry: {output_window.geometry()}", flush=True)
 
     app.setQuitOnLastWindowClosed(True)
     splash.finish_loading(control_window)

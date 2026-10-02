@@ -34,7 +34,7 @@ from app.models.theme import default_theme
 from app.persistence import service_repo
 from app.persistence.paths import SERVICES_DIR, RECORDINGS_DIR
 from app.stores.bible_store import BibleStore
-from app.stores.display_store import DisplayStore
+from app.stores.display_store import DisplayStore, preferred_output_screen
 from app.stores.media_store import MediaPlayerStore
 from app.stores.output_store import OutputStore
 from app.stores.recording_store import (
@@ -72,7 +72,12 @@ from app.utils.icons import (
 from app.utils.help import open_help
 from app.utils.hotkeys import HOTKEY_DEFINITIONS, configured_hotkeys
 from app.utils.update_checker import ReleaseInfo, UpdateChecker, launch_update, select_asset
-from app.utils.window_state import encode_geometry, encode_splitter_state, restore_splitter_state
+from app.utils.window_state import (
+    encode_geometry,
+    encode_splitter_state,
+    restore_geometry,
+    restore_splitter_state,
+)
 from app.version import APP_VERSION
 from app.widgets.bible_browser import BibleBrowser
 from app.widgets.export_dialog import ExportDialog
@@ -240,7 +245,7 @@ class ControlWindow(QMainWindow):
         output_menu.addAction(self._show_hide_menu_action)
         self._update_show_hide_button(self._output_store.is_black)
         output_menu.addSeparator()
-        self._add_action(output_menu, "View Output on Secondary Screen", self._show_output_on_secondary)
+        self._add_action(output_menu, "View Output on Secondary Screen", self.show_output_on_secondary)
         aspect_menu = output_menu.addMenu("Aspect Ratio")
         aspect_group = QActionGroup(self)
         aspect_group.setExclusive(True)
@@ -456,7 +461,7 @@ class ControlWindow(QMainWindow):
         toolbar.addAction(self._qr_code_toolbar_action)
         secondary_output_action = QAction(output_screen_icon(), "", self)
         secondary_output_action.setToolTip("View Output on Secondary Screen")
-        secondary_output_action.triggered.connect(self._show_output_on_secondary)
+        secondary_output_action.triggered.connect(self.show_output_on_secondary)
         toolbar.addAction(secondary_output_action)
         return toolbar
     def _build_media_transport_toolbar(self) -> QToolBar:
@@ -784,12 +789,29 @@ class ControlWindow(QMainWindow):
     def _set_live(self, is_live: bool) -> None:
         self._output_store.set_live(is_live)
         self._output_store.set_black(not is_live)
-    def _show_output_on_secondary(self) -> None:
-        screens = QGuiApplication.screens()
-        target = screens[1] if len(screens) > 1 else screens[0]
+    def show_output_on_secondary(self) -> None:
+        """Project the Output window full-screen on the preferred (secondary) screen."""
+        target = preferred_output_screen()
+        if target is None:
+            return
         self._display_store.set_target_screen(target)
         self._output_window.setGeometry(target.geometry())
         self._output_window.showFullScreen()
+
+    def show_output_on_startup(self, saved_geometry: str | None) -> None:
+        """Place the Output window when the app launches.
+
+        With a second monitor attached it goes full-screen there automatically. On a
+        single screen it is restored as a normal window (never full-screen, which would
+        hide the Control window) and the Control window is kept on top.
+        """
+        if self._display_store.has_secondary_screen:
+            self.show_output_on_secondary()
+            return
+        restore_geometry(self._output_window, saved_geometry)
+        self._display_store.set_target_screen(preferred_output_screen())
+        self._output_window.setWindowState(Qt.WindowState.WindowNoState)
+        self._output_window.showNormal()
     def _open_export_dialog(self) -> None:
         if self._service_store.service is None:
             return

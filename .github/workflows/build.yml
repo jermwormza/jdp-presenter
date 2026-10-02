@@ -34,7 +34,7 @@ jobs:
 
       - name: Build .app with PyInstaller
         run: |
-          pyinstaller --windowed --name "JDP Presenter" --icon assets/icon.icns --add-data "app/server/templates:templates" --add-data "app/resources/help:help" --add-data "LICENSE:." --add-data "THIRD_PARTY_NOTICES.md:." --hidden-import=PySide6.QtMultimedia --hidden-import=PySide6.QtMultimediaWidgets --hidden-import=PySide6.QtNetwork --hidden-import=PySide6.QtWebSockets --hidden-import=sounddevice --hidden-import=numpy --hidden-import=qrcode --hidden-import=PIL --hidden-import=flask --hidden-import=flask_socketio --hidden-import=socketio app/main.py
+          pyinstaller --windowed --name "JDP Presenter" --icon assets/icon.icns --add-data "app/server/templates:templates" --add-data "app/resources/help:help" --add-data "LICENSE:." --add-data "THIRD_PARTY_NOTICES.md:." --hidden-import=PySide6.QtMultimedia --hidden-import=PySide6.QtMultimediaWidgets --hidden-import=PySide6.QtNetwork --hidden-import=PySide6.QtWebSockets --hidden-import=sounddevice --hidden-import=numpy --hidden-import=qrcode --hidden-import=PIL --hidden-import=flask --hidden-import=flask_socketio --hidden-import=socketio --hidden-import=engineio.async_drivers.threading app/main.py
 
       - name: Create DMG
         run: |
@@ -77,7 +77,7 @@ jobs:
 
       - name: Build with PyInstaller
         run: |
-          pyinstaller --windowed --name "JDP Presenter" --icon assets/icon.ico --add-data "app/server/templates;templates" --add-data "app/resources/help;help" --add-data "LICENSE;." --add-data "THIRD_PARTY_NOTICES.md;." --hidden-import=PySide6.QtMultimedia --hidden-import=PySide6.QtMultimediaWidgets --hidden-import=PySide6.QtNetwork --hidden-import=PySide6.QtWebSockets --hidden-import=sounddevice --hidden-import=numpy --hidden-import=qrcode --hidden-import=PIL --hidden-import=flask --hidden-import=flask_socketio --hidden-import=socketio app/main.py
+          pyinstaller --windowed --name "JDP Presenter" --icon assets/icon.ico --add-data "app/server/templates;templates" --add-data "app/resources/help;help" --add-data "LICENSE;." --add-data "THIRD_PARTY_NOTICES.md;." --hidden-import=PySide6.QtMultimedia --hidden-import=PySide6.QtMultimediaWidgets --hidden-import=PySide6.QtNetwork --hidden-import=PySide6.QtWebSockets --hidden-import=sounddevice --hidden-import=numpy --hidden-import=qrcode --hidden-import=PIL --hidden-import=flask --hidden-import=flask_socketio --hidden-import=socketio --hidden-import=engineio.async_drivers.threading app/main.py
 
       - name: Create ZIP
         run: |
@@ -134,7 +134,7 @@ jobs:
 
       - name: Build with PyInstaller
         run: |
-          pyinstaller --windowed --name "JDP Presenter" --icon assets/icon.png --add-data "app/server/templates:templates" --add-data "app/resources/help:help" --add-data "LICENSE:." --add-data "THIRD_PARTY_NOTICES.md:." --hidden-import=PySide6.QtMultimedia --hidden-import=PySide6.QtMultimediaWidgets --hidden-import=PySide6.QtNetwork --hidden-import=PySide6.QtWebSockets --hidden-import=sounddevice --hidden-import=numpy --hidden-import=qrcode --hidden-import=PIL --hidden-import=flask --hidden-import=flask_socketio --hidden-import=socketio app/main.py
+          pyinstaller --windowed --name "JDP Presenter" --icon assets/icon.png --add-data "app/server/templates:templates" --add-data "app/resources/help:help" --add-data "LICENSE:." --add-data "THIRD_PARTY_NOTICES.md:." --hidden-import=PySide6.QtMultimedia --hidden-import=PySide6.QtMultimediaWidgets --hidden-import=PySide6.QtNetwork --hidden-import=PySide6.QtWebSockets --hidden-import=sounddevice --hidden-import=numpy --hidden-import=qrcode --hidden-import=PIL --hidden-import=flask --hidden-import=flask_socketio --hidden-import=socketio --hidden-import=engineio.async_drivers.threading app/main.py
 
       - name: Create Linux archive
         run: |

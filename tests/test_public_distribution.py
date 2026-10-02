@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import unittest
 from pathlib import Path
 
@@ -60,6 +61,22 @@ class PublicDistributionTests(unittest.TestCase):
             self.assertIn(filename, build_script)
             self.assertIn(filename, workflow)
         self.assertIn('Source: "..\\dist\\JDP Presenter\\*"', installer)
+
+    def test_ci_pyinstaller_hidden_imports_match_local_build(self) -> None:
+        """A missing hidden import only shows up as a crash in the frozen app
+        (e.g. Flask-SocketIO's "Invalid async_mode specified"), so keep CI in sync."""
+        build_script = (ROOT / "build_local.py").read_text(encoding="utf-8")
+        workflow = (ROOT / ".github" / "workflows" / "build.yml").read_text(
+            encoding="utf-8"
+        )
+        local_imports = set(re.findall(r"--hidden-import=(\S+)", build_script))
+        self.assertIn("engineio.async_drivers.threading", local_imports)
+
+        ci_commands = re.findall(r"^\s*pyinstaller .*$", workflow, re.MULTILINE)
+        self.assertEqual(len(ci_commands), 3, "expected one PyInstaller command per platform job")
+        for command in ci_commands:
+            missing = local_imports - set(re.findall(r"--hidden-import=(\S+)", command))
+            self.assertFalse(missing, f"CI PyInstaller command is missing hidden imports: {missing}")
 
     def test_private_content_patterns_are_ignored(self) -> None:
         ignore_rules = (ROOT / ".gitignore").read_text(encoding="utf-8")

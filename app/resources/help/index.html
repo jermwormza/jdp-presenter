@@ -54,6 +54,7 @@
     .btn { display:inline-block; min-width:30px; margin:1px 2px; padding:2px 7px; border:1px solid var(--line); border-radius:4px; background:var(--soft); font-weight:600; text-align:center; }
     .btn.icon-btn { padding:3px 6px; line-height:0; }
     @media (max-width:650px) { .settings-shot,.schedule-shot,.remote-shot { grid-template-columns:1fr; } .side { border-right:0; } .field { grid-template-columns:1fr; gap:3px; } }
+    @media print { nav { display:none; } header { padding:20px 24px; } main { max-width:none; padding:18px 0 0; } section { break-inside:auto; margin-bottom:28px; } h2 { break-after:avoid; } tr, figure, .note { break-inside:avoid; } .shot { box-shadow:none; } }
   </style>
 </head>
 <body>
